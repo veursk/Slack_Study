@@ -1,8 +1,9 @@
 import React from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import loadable from '@loadable/component';
 
-import LogIn from '@pages/Login';
-import SingUp from '@pages/SingUp/Login';
+const LogIn = loadable(() => import('@pages/Login'));
+const SingUp = loadable(() => import('@pages/SingUp/Login'));
 
 export default function App() {
   return (
