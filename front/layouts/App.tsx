@@ -3,7 +3,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import loadable from '@loadable/component';
 
 const LogIn = loadable(() => import('@pages/Login'));
-const SingUp = loadable(() => import('@pages/SingUp/Login'));
+const SingUp = loadable(() => import('@pages/SignUp'));
 
 export default function App() {
   return (
