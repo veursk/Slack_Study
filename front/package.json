@@ -22,15 +22,22 @@
     "react-dom": "^19.1.1",
     "style-loader": "^4.0.0",
     "typescript": "^5.9.2",
-    "webpack": "^5.101.0"
+    "webpack": "^5.101.0",
+    "webpack-bundle-analyzer": "^4.10.2"
   },
   "devDependencies": {
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.6.1",
     "@types/node": "^24.1.0",
     "@types/webpack": "^5.28.5",
+    "@types/webpack-bundle-analyzer": "^4.7.0",
+    "@types/webpack-dev-server": "^4.7.1",
     "eslint": "^9.32.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.3",
+    "fork-ts-checker-webpack-plugin": "^9.1.0",
     "prettier": "^3.6.2",
-    "webpack-cli": "^6.0.1"
+    "ts-node": "^10.9.2",
+    "webpack-cli": "^6.0.1",
+    "webpack-dev-server": "^5.2.2"
   }
 }
