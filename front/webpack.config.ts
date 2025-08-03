@@ -16,6 +16,11 @@ const config: Configuration = {
   name: 'slack-study',
   mode: isDevelopment ? 'development' : 'production',
   devtool: !isDevelopment ? 'hidden-source-map' : 'eval',
+  performance: {
+    hints: false, // 성능 경고 비활성화
+    maxEntrypointSize: 512000, // 500KB로 증가
+    maxAssetSize: 512000, // 500KB로 증가
+  },
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
     alias: {
