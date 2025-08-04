@@ -96,7 +96,12 @@ if (isDevelopment && config.plugins) {
 }
 if (!isDevelopment && config.plugins) {
   config.plugins.push(new webpack.LoaderOptionsPlugin({ minimize: true }));
-  config.plugins.push(new BundleAnalyzerPlugin({ analyzerMode: 'static' }));
+  config.plugins.push(new BundleAnalyzerPlugin({ 
+    analyzerMode: 'static',
+    openAnalyzer: false, // 브라우저 자동 열기 비활성화
+    generateStatsFile: true,
+    statsFilename: 'stats.json'
+  }));
 }
 
 export default config;
