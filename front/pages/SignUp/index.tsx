@@ -1,12 +1,16 @@
 import React from 'react';
 import { useState, useCallback } from 'react';
 import axios, { AxiosResponse } from 'axios';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import useSWR from 'swr';
 
 import { Form, Label, Input, LinkContainer, Button, Header, Error } from './styles';
 import useInput from '@hooks/useInput';
+import fetcher from '@utils/fetcher';
 
 const SignUp = () => {
+  const { data, error, isLoading, mutate } = useSWR('http://localhost:3095/api/users', fetcher);
+
   const [email, onChangeEmail] = useInput('');
   const [nickname, onChangeNickName] = useInput('');
   const [password, , setPassword] = useInput(''); // 가운데 프로퍼티를 안 쓰고 싶으면 빈칸처리해도 된다!(구조분해에서 가능)
@@ -66,6 +70,14 @@ const SignUp = () => {
     },
     [email, nickname, password, passwordCheck, mismatchError],
   );
+
+  if (data === undefined) {
+    return <div>로딩중</div>
+  }
+
+  if (data) {
+    return <Navigate to="/workspace/channel" />;
+  }
 
   return (
     <div id="container">

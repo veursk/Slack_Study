@@ -1,13 +1,14 @@
 import useInput from '@hooks/useInput';
 import React, { useCallback, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import axios from 'axios';
+import useSWR from 'swr';
 
 import { Button, Error, Form, Header, Input, Label, LinkContainer } from '@pages/SignUp/styles';
-// import fetcher from '@utils/fetcher';
-// import { Redirect } from 'react-router-dom';
+import fetcher from '@utils/fetcher';
 
 const LogIn = () => {
+  const { data, error, isLoading, mutate } = useSWR('http://localhost:3095/api/users', fetcher);
   const [email, onChangeEmail] = useInput('');
   const [password, onChangePassword] = useInput('');
   const [logInError, setLogInError] = useState(false);
@@ -24,7 +25,9 @@ const LogIn = () => {
             withCredentials: true,
           },
         )
-        .then(() => {})
+        .then(() => {
+          mutate();
+        })
         .catch((error) => {
           console.dir(error);
           setLogInError(error.response?.status === 401);
@@ -32,6 +35,10 @@ const LogIn = () => {
     },
     [email, password],
   );
+
+  if (data) {
+    return <Navigate to="/workspace/channel" />;
+  }
 
   return (
     <div id="container">
