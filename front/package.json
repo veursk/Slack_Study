@@ -32,6 +32,7 @@
     "react-router": "^7.7.1",
     "react-router-dom": "^7.7.1",
     "style-loader": "^4.0.0",
+    "swr": "^2.3.4",
     "typescript": "^5.9.2",
     "webpack": "^5.101.0",
     "webpack-bundle-analyzer": "^4.10.2"
