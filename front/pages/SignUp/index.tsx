@@ -1,34 +1,32 @@
 import React from 'react';
 import { useState, useCallback } from 'react';
 import { Form, Label, Input, LinkContainer, Button, Header, Error } from './styles';
+import useInput from '@hooks/useInput';
 
 const SignUp = () => {
+  const [email, onChangeEmail] = useInput('');
+  const [nickname, onChangeNickName] = useInput('');
+  const [password, , setPassword] = useInput(''); // 가운데 프로퍼티를 안 쓰고 싶으면 빈칸처리해도 된다!(구조분해에서 가능)
+  const [passwordCheck, , setPasswordCheck] = useInput('');
+  const [mismatchError, setMismatchError] = useState(false);
   const [signUpError, setSignUpError] = useState(false);
   const [signUpSuccess, setSignUpSuccess] = useState(false);
 
-  const [email, setEmail] = useState('');
-  const [nickname, setNickName] = useState('');
-  const [password, setPassword] = useState('');
-  const [passwordCheck, setPasswordCheck] = useState('');
-  const [mismatchError, setMismatchError] = useState(false);
+  const onChangePassword = useCallback(
+    (e: any) => {
+      setPassword(e.target.value);
+      setMismatchError(passwordCheck !== e.target.value);
+    },
+    [password, passwordCheck],
+  );
 
-  const onChangeEmail = useCallback((e: any) => {
-    setEmail(e.target.value);
-  }, []);
-
-  const onChangeNickname = useCallback((e: any) => {
-    setNickName(e.target.value);
-  }, []);
-
-  const onChangePassword = useCallback((e: any) => {
-    setPassword(e.target.value);
-    setMismatchError(passwordCheck !== e.target.value);
-  }, [password, passwordCheck]);
-
-  const onChangePasswordCheck = useCallback((e: any) => {
-    setPasswordCheck(e.target.value);
-    setMismatchError(password !== e.target.value);
-  }, [password, passwordCheck]);
+  const onChangePasswordCheck = useCallback(
+    (e: any) => {
+      setPasswordCheck(e.target.value);
+      setMismatchError(password !== e.target.value);
+    },
+    [password, passwordCheck],
+  );
 
   const onSubmit = useCallback(
     (e: any) => {
@@ -55,7 +53,7 @@ const SignUp = () => {
         <Label id="nickname-label">
           <span>닉네임</span>
           <div>
-            <Input type="text" id="nickname" name="nickname" value={nickname} onChange={onChangeNickname} />
+            <Input type="text" id="nickname" name="nickname" value={nickname} onChange={onChangeNickName} />
           </div>
         </Label>
         <Label id="password-label">
