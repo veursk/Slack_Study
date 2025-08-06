@@ -1,6 +1,7 @@
 import React from 'react';
 import { useState, useCallback } from 'react';
 import axios, { AxiosResponse } from 'axios';
+import { Link } from 'react-router-dom';
 
 import { Form, Label, Input, LinkContainer, Button, Header, Error } from './styles';
 import useInput from '@hooks/useInput';
@@ -98,7 +99,9 @@ const SignUp = () => {
         </Label>
         <Button type="submit">회원가입</Button>
       </Form>
-      <LinkContainer>이미 회원이신가요?&nbsp;</LinkContainer>
+      <LinkContainer>
+        이미 회원이신가요?&nbsp;<Link to="/login">로그인 하러가기</Link>
+      </LinkContainer>
     </div>
   );
 };
