@@ -1,7 +1,7 @@
 import useInput from '@hooks/useInput';
 import React, { useCallback, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import useSWR from 'swr';
 
 import { Button, Error, Form, Header, Input, Label, LinkContainer } from '@pages/SignUp/styles';
@@ -25,8 +25,8 @@ const LogIn = () => {
             withCredentials: true,
           },
         )
-        .then(() => {
-          mutate();
+        .then((response: AxiosResponse) => {
+          mutate(response.data);
         })
         .catch((error) => {
           console.dir(error);
