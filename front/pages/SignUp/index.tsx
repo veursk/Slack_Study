@@ -43,11 +43,17 @@ const SignUp = () => {
       if (!mismatchError) {
         console.log('서버로 회원가입 통신');
         axios
-          .post('http://localhost:3095/api/users', {
-            email,
-            nickname,
-            password,
-          })
+          .post(
+            'http://localhost:3095/api/users',
+            {
+              email,
+              nickname,
+              password,
+            },
+            {
+              withCredentials: true,
+            },
+          )
           .then((response: AxiosResponse) => {
             console.log(response);
             setSignUpSuccess(true);
