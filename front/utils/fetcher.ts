@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const fetcher = (url: string) => {
-  axios
+  return axios
     .get(url, {
       withCredentials: true,
     })
