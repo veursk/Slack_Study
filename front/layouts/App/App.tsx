@@ -4,7 +4,7 @@ import loadable from '@loadable/component';
 
 const LogIn = loadable(() => import('@pages/Login'));
 const SingUp = loadable(() => import('@pages/SignUp'));
-const Channel = loadable(() => import('@pages/Channel'));
+const Workspace = loadable(() => import('@layouts/Workspace'));
 
 export default function App() {
   return (
@@ -12,7 +12,7 @@ export default function App() {
       <Routes>
         <Route path="/login" element={<LogIn />} />
         <Route path="/signup" element={<SingUp />} />
-        <Route path="/workspace/channel" element={<Channel />} />
+        <Route path="/workspace/:workspace/*" element={<Workspace />} />
       </Routes>
     </BrowserRouter>
   );
