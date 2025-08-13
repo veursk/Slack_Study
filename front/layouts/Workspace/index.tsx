@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { PropsWithChildren, useCallback, useState } from 'react';
 import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
 import axios from 'axios';
@@ -17,6 +17,7 @@ import {
   ProfileModal,
   RightMenu,
   WorkspaceButton,
+  WorkspaceModal,
   WorkspaceName,
   Workspaces,
   WorkspaceWrapper,
@@ -27,13 +28,16 @@ import { IUser } from '@typings/db';
 import { Button, Input } from '@pages/SignUp/styles';
 import useInput from '@hooks/useInput';
 import Modal from '@components/Modal';
+import CreateChannelModal from '@components/CreateChannelModal';
 
 const Channel = loadable(() => import('@pages/Channel'));
 const DirectMessage = loadable(() => import('@pages/DirectMessage'));
 
-const Workspace: React.FC<React.PropsWithChildren> = ({ children }) => {
+const Workspace: React.FC = () => {
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [ShowCreateWorkspaceModal, setShowCreateWorkspaceModal] = useState(false);
+  const [showCreateWorkspaceModal, setShowCreateWorkspaceModal] = useState(false);
+  const [showWorkspaceModal, setShowWorkspaceModal] = useState(false);
+  const [showCreateChannelModal, setShowCreateChannelModal] = useState(false);
   const [newWorkspace, onChangeNewWorkspace, setNewWorkspace] = useInput('');
   const [newUrl, onChangeNewUrl, setNewUrl] = useInput('');
 
@@ -101,6 +105,15 @@ const Workspace: React.FC<React.PropsWithChildren> = ({ children }) => {
 
   const onCloseModal = useCallback(() => {
     setShowCreateWorkspaceModal(false);
+    setShowCreateChannelModal(false);
+  }, []);
+
+  const toggleWorkspaceModal = useCallback(() => {
+    setShowWorkspaceModal((prev) => !prev);
+  }, []);
+
+  const onClickAddChannel = useCallback(() => {
+    setShowCreateChannelModal(true);
   }, []);
 
   if (!userData) {
@@ -141,8 +154,16 @@ const Workspace: React.FC<React.PropsWithChildren> = ({ children }) => {
           <AddButton onClick={onClickCreateWorkspace}>+</AddButton>
         </Workspaces>
         <Channels>
-          <WorkspaceName>Slack Study</WorkspaceName>
-          <MenuScroll></MenuScroll>
+          <WorkspaceName onClick={toggleWorkspaceModal}>Slack Study</WorkspaceName>
+          <MenuScroll>
+            <Menu show={showWorkspaceModal} onCloseModal={toggleWorkspaceModal} style={{ top: 95, left: 80 }}>
+              <WorkspaceModal>
+                <h2>Slack Study</h2>
+                <button onClick={onClickAddChannel}>채널 만들기</button>
+                <button onClick={onLogout}>로그아웃</button>
+              </WorkspaceModal>
+            </Menu>
+          </MenuScroll>
         </Channels>
         <Chats>
           <Routes>
@@ -152,8 +173,7 @@ const Workspace: React.FC<React.PropsWithChildren> = ({ children }) => {
           </Routes>
         </Chats>
       </WorkspaceWrapper>
-      {children}
-      <Modal show={ShowCreateWorkspaceModal} onCloseModal={onCloseModal}>
+      <Modal show={showCreateWorkspaceModal} onCloseModal={onCloseModal}>
         <form onSubmit={onCreateWorkspace}>
           <label id="workspace-label">
             <span>워크스페이스 이름</span>
@@ -166,6 +186,7 @@ const Workspace: React.FC<React.PropsWithChildren> = ({ children }) => {
           <Button type="submit">생성하기</Button>
         </form>
       </Modal>
+      <CreateChannelModal show={showCreateChannelModal} onCloseModal={onCloseModal} />
     </div>
   );
 };
