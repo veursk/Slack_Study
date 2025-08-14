@@ -72,11 +72,11 @@ const SignUp = () => {
   );
 
   if (data === undefined) {
-    return <div>로딩중</div>
+    return <div>로딩중</div>;
   }
 
   if (data) {
-    return <Navigate to="/workspace/channel" />;
+    return <Navigate to="/workspace/sleact/channel/일반" />;
   }
 
   return (
