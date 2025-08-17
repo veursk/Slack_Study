@@ -28,12 +28,20 @@ const EachDM: React.FC<Props> = ({ member, isOnline }) => {
     }
   }, [mutate, location.pathname, workspace, member]);
 
+  console.log(isOnline);
+
   return (
     <NavLink key={member.id} to={`/workspace/${workspace}/dm/${member.id}`}>
       <i
-        className={`c-icon p-channel_sidebar__presence_icon p-channel_sidebar__presence_icon--dim_enabled c-presence ${
-          isOnline ? 'c-presence--active c-icon--presence-online' : 'c-icon--presence-offline'
-        }`}
+        style={{
+          display: 'inline-block',
+          width: 8,
+          height: 8,
+          borderRadius: '50%',
+          background: isOnline ? '#2bac76' : '#9e9ea6',
+          marginRight: 6,
+          verticalAlign: 'middle',
+        }}
         aria-hidden="true"
         data-qa="presence_indicator"
         data-qa-presence-self="false"
