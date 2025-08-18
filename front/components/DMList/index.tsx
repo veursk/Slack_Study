@@ -6,7 +6,7 @@ import useSocket from '@hooks/useSocket';
 import { IDM, IUser, IUserWithOnline } from '@typings/db';
 import fetcher from '@utils/fetcher';
 import React, { FC, useCallback, useEffect, useState } from 'react';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import useSWR from 'swr';
 

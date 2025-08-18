@@ -5,7 +5,7 @@ import gravatar from 'gravatar';
 import useSWR from 'swr';
 import { IDM, IUser } from '@typings/db';
 import fetcher from '@utils/fetcher';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 // import ChatList from '@components/ChatList';
 import ChatBox from '@components/ChatBox';
 import useInput from '@hooks/useInput';

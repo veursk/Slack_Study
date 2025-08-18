@@ -3,7 +3,7 @@ import Modal from '@components/Modal';
 import { Button, Input } from '@pages/SignUp/styles';
 import useInput from '@hooks/useInput';
 import axios from 'axios';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import useSWR from 'swr';
 import { IChannel, IUser } from '@typings/db';

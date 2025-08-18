@@ -1,7 +1,7 @@
 import { IUser } from '@typings/db';
 import fetcher from '@utils/fetcher';
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import { NavLink, useLocation } from 'react-router-dom';
 import useSWR from 'swr';
 

@@ -1,7 +1,7 @@
 import { IChannel, IUser } from '@typings/db';
 import fetcher from '@utils/fetcher';
 import React, { useEffect } from 'react';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import { NavLink, useLocation } from 'react-router-dom';
 import useSWR from 'swr';
 
@@ -16,7 +16,9 @@ const EachChannel: React.FC<Props> = ({ channel }) => {
   });
   const date = localStorage.getItem(`${workspace}-${channel.name}`) || 0;
   const { data: count, mutate } = useSWR<number>(
-    userData ? `http://localhost:3095/api/workspaces/${workspace}/channels/${channel.name}/unreads?after=${date}` : null,
+    userData
+      ? `http://localhost:3095/api/workspaces/${workspace}/channels/${channel.name}/unreads?after=${date}`
+      : null,
     fetcher,
   );
 

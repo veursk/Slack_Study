@@ -3,7 +3,7 @@ import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { Routes, Route, Navigate, Link } from 'react-router';
+import { Routes, Route, Navigate, Link } from 'react-router-dom';
 import loadable from '@loadable/component';
 
 import {
@@ -29,7 +29,7 @@ import { Button, Input } from '@pages/SignUp/styles';
 import useInput from '@hooks/useInput';
 import Modal from '@components/Modal';
 import CreateChannelModal from '@components/CreateChannelModal';
-import { useParams } from 'react-router';
+import { useParams } from 'react-router-dom';
 import InviteWorkspaceModal from '@components/InviteWorkspaceModal';
 import InviteChannelModal from '@components/InviteChannelModal';
 import DMList from '@components/DMList';
@@ -50,6 +50,8 @@ const Workspace: React.FC = () => {
   const [newUrl, onChangeNewUrl, setNewUrl] = useInput('');
 
   const { workspace } = useParams<{ workspace: string }>();
+
+  console.log(workspace);
 
   const {
     data: userData,
