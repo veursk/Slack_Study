@@ -14,7 +14,7 @@ import axios from 'axios';
 
 const DirectMessage = () => {
   const { workspace, id } = useParams<{ workspace: string; id: string }>();
-  const { data: userData } = useSWR(`http://localhost:3095/api/workspaces/${workspace}/members/${id}`, fetcher);
+  const { data: userData } = useSWR(`http://localhost:3095/api/workspaces/${workspace}/users/${id}`, fetcher);
   const { data: myData } = useSWR(`http://localhost:3095/api/users`, fetcher);
   const [chat, onChangeChat, setChat] = useInput('');
   const { data: chatData, mutate: mutateChat } = useSWR<IDM[]>(
