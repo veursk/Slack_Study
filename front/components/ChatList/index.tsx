@@ -1,4 +1,4 @@
-import React, { ForwardedRef, forwardRef, useCallback, useRef } from 'react';
+import React, { ForwardedRef, forwardRef, RefObject, useCallback, useRef } from 'react';
 import { ChatZone, Section, StickyHeader } from './styles';
 import { IChat, IDM } from '@typings/db';
 import Chat from '@components/Chat';
@@ -6,20 +6,22 @@ import { Scrollbars } from 'react-custom-scrollbars-2';
 
 interface Props {
   chatSections: { [key: string]: IDM[] };
-  ref: ForwardedRef<unknown>;
+  ref: RefObject<Scrollbars>;
   setSize: (f: (size: number) => number) => Promise<(IDM | IChat)[][] | undefined>;
   isEmpty: boolean;
   isReachingEnd: boolean;
 }
 
-const ChatList = forwardRef<Scrollbars, Props>(({ chatSections, setSize, isEmpty, isReachingEnd }, ref) => {
+const ChatList: React.FC<Props> = ({ chatSections, ref, setSize, isEmpty, isReachingEnd }) => {
   const onScroll = useCallback((values: any) => {
     if (values.scrollTop === 0 && !isReachingEnd) {
       console.log('가장');
-      setSize((prevSize) => prevSize + 1)
-        .then
+      setSize((prevSize) => prevSize + 1).then(() => {
         // 스크롤 위치 유지
-        ();
+        if (ref?.current) {
+          ref.current.scrollTop(ref.current.getScrollHeight() - values.scrollHeight);
+        }
+      });
     }
   }, []);
 
@@ -41,6 +43,6 @@ const ChatList = forwardRef<Scrollbars, Props>(({ chatSections, setSize, isEmpty
       </Scrollbars>
     </ChatZone>
   );
-});
+};
 
 export default ChatList;

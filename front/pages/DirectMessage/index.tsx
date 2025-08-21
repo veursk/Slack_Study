@@ -1,5 +1,5 @@
 import { Container } from '@pages/Channel/styles';
-import React, { useCallback, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { Header } from './styles';
 import gravatar from 'gravatar';
 import useSWRInfinite from 'swr/infinite';
@@ -56,12 +56,21 @@ const DirectMessage = () => {
           .then(() => {
             mutateChat();
             setChat('');
+            /* 채팅 입력 시 가장 아래로 이동 */
+            scrollbarRef.current?.scrollToBottom();
           })
           .catch((error) => console.log(error));
       }
     },
-    [chat],
+    [chat, chatData, workspace, id],
   );
+
+  // 로딩 시 스크롤바 제일 아래로
+  useEffect(() => {
+    if (chatData?.length === 1) {
+      scrollbarRef.current?.scrollToBottom();
+    }
+  }, [chatData]);
 
   if (!userData || !myData) {
     return null;
