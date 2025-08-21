@@ -14,6 +14,7 @@ import ChatList from '@components/ChatList';
 import axios from 'axios';
 import makeSection from '@utils/makeSection';
 import Scrollbars from 'react-custom-scrollbars-2';
+import useSocket from '@hooks/useSocket';
 
 const DirectMessage = () => {
   const { workspace, id } = useParams<{ workspace: string; id: string }>();
@@ -29,10 +30,12 @@ const DirectMessage = () => {
     fetcher,
   );
 
+  /* 소켓 */
+  const [socket] = useSocket(workspace);
+
   /* infinite Scroll을 구현할 때는 아래
   isEmpty와 isReachingEnd를 함께 구현하는것이 좋다.
   */
-
   const isEmpty = chatData?.[0]?.length === 0;
   const isReachingEnd = isEmpty || (chatData && chatData[chatData.length - 1]?.length < 20) || false;
 
@@ -64,6 +67,36 @@ const DirectMessage = () => {
     },
     [chat, chatData, workspace, id],
   );
+
+  const onMessage = useCallback(
+    (data: IDM) => {
+      if (data.SenderId === Number(id) && myData.id !== Number(id)) {
+        mutateChat((chatData) => {
+          chatData?.[0].unshift(data);
+          return chatData;
+        }, false).then(() => {
+          if (scrollbarRef.current) {
+            if (
+              scrollbarRef.current.getScrollHeight() <
+              scrollbarRef.current.getClientHeight() + scrollbarRef.current.getScrollTop() + 150
+            ) {
+              console.log('scrollToBottom!', scrollbarRef.current?.getValues());
+              scrollbarRef.current.scrollToBottom();
+            }
+          }
+        });
+      }
+    },
+    [id, myData, mutateChat],
+  );
+
+  // 소켓 연결
+  useEffect(() => {
+    socket?.on('dm', onMessage);
+    return () => {
+      socket?.off('dm', onMessage);
+    };
+  }, [socket, onMessage]);
 
   // 로딩 시 스크롤바 제일 아래로
   useEffect(() => {
