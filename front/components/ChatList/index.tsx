@@ -1,11 +1,11 @@
-import React, { ForwardedRef, forwardRef, RefObject, useCallback, useRef } from 'react';
+import React, { RefObject, useCallback } from 'react';
 import { ChatZone, Section, StickyHeader } from './styles';
 import { IChat, IDM } from '@typings/db';
 import Chat from '@components/Chat';
 import { Scrollbars } from 'react-custom-scrollbars-2';
 
 interface Props {
-  chatSections: { [key: string]: IDM[] };
+  chatSections: { [key: string]: (IDM | IChat)[] };
   ref: RefObject<Scrollbars>;
   setSize: (f: (size: number) => number) => Promise<(IDM | IChat)[][] | undefined>;
   isEmpty: boolean;
@@ -34,7 +34,7 @@ const ChatList: React.FC<Props> = ({ chatSections, ref, setSize, isEmpty, isReac
               <StickyHeader>
                 <button>{date}</button>
               </StickyHeader>
-              {chats.map((chat: IDM) => (
+              {chats.map((chat) => (
                 <Chat key={chat.id} data={chat} />
               ))}
             </Section>

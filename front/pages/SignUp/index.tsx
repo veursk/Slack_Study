@@ -76,7 +76,7 @@ const SignUp = () => {
   }
 
   if (data) {
-    return <Navigate to="/workspace/sleact/channel/일반" />;
+    return <Navigate to={`/workspace/${data.Workspaces?.[0]?.url || 'sleact'}/channel/일반`} />;
   }
 
   return (

@@ -3,7 +3,7 @@ import useSWR from 'swr';
 import fetcher from '@utils/fetcher';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { Routes, Route, Navigate, Link } from 'react-router-dom';
+import { Navigate, Link } from 'react-router-dom';
 import loadable from '@loadable/component';
 
 import {
@@ -29,7 +29,7 @@ import { Button, Input } from '@pages/SignUp/styles';
 import useInput from '@hooks/useInput';
 import Modal from '@components/Modal';
 import CreateChannelModal from '@components/CreateChannelModal';
-import { useParams } from 'react-router-dom';
+import { Outlet, useParams } from 'react-router-dom';
 import InviteWorkspaceModal from '@components/InviteWorkspaceModal';
 import InviteChannelModal from '@components/InviteChannelModal';
 import DMList from '@components/DMList';
@@ -51,8 +51,6 @@ const Workspace: React.FC = () => {
 
   const { workspace } = useParams<{ workspace: string }>();
 
-  console.log(workspace);
-
   const {
     data: userData,
     error,
@@ -71,8 +69,6 @@ const Workspace: React.FC = () => {
   );
 
   const [socket, disconnect] = useSocket(workspace);
-
-  console.log(socket);
 
   useEffect(() => {
     if (channelData && userData && socket) {
@@ -168,7 +164,7 @@ const Workspace: React.FC = () => {
       <Header>
         <RightMenu>
           <span onClick={onClickUserProfile}>
-            <ProfileImg src={gravatar.url(userData.nickname, { s: '28px', d: 'retro' })} alt={userData.nickname} />
+            <ProfileImg src={gravatar.url(userData.email, { s: '28px', d: 'retro' })} alt={userData.nickname} />
             {showUserMenu && (
               <Menu style={{ right: 0, top: 38 }} show={showUserMenu} onCloseModal={onClickUserProfile}>
                 <ProfileModal>
@@ -212,11 +208,7 @@ const Workspace: React.FC = () => {
           </MenuScroll>
         </Channels>
         <Chats>
-          <Routes>
-            <Route path="channel/:channel" element={<Channel />} />
-            <Route path="dm/:id" element={<DirectMessage />} />
-            <Route path="*" element={<Channel />} />
-          </Routes>
+          <Outlet />
         </Chats>
       </WorkspaceWrapper>
       <Modal show={showCreateWorkspaceModal} onCloseModal={onCloseModal}>
